@@ -7,3 +7,11 @@ export async function fetchShows(signal) {
     }
     return response.json();
 }
+
+export async function fetchShow(id, signal) {
+    const response = await fetch(`${BASE_URL}/id/${id}`, { signal });
+    if (!response.ok) {
+        throw new Error(`Failed to load show (${response.status})`);
+    }
+    return response.json();
+}

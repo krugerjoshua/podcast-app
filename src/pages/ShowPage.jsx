@@ -1,0 +1,46 @@
+import { Link, useParams } from "react-router-dom";
+import { useShow } from "../hooks/useShow";
+import Loading from "../components/Loading";
+
+export default function ShowPage() {
+    const { id } = useParams();
+    const { show, status, error } = useShow(id);
+
+    if (status === "loading") return <Loading label="Loading show..." />;
+    if (status === "error")
+        return (
+            <p role="alert" className="p-6">
+                {error}
+            </p>
+        );
+
+    return (
+        <div className="p-4">
+            <Link to="/" className="text-accent underline">
+                Back to all shows
+            </Link>
+            <h1 className="mt-4 text-2xl font-bold">{show.title}</h1>
+            <p className="mt-2 max-w-prose text-muted">{show.description}</p>
+
+            <h2 className="mt-6 text-lg font-semibold">Seasons</h2>
+            <ul className="mt-3 grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4">
+                {show.seasons.map((season) => (
+                    <li
+                        key={season.season}
+                        className="rounded-2xl bg-raised p-3"
+                    >
+                        <img
+                            src={season.image}
+                            alt=""
+                            className="aspect-square w-full rounded-lg object-cover"
+                        />
+                        <p className="mt-2 font-semibold">{season.title}</p>
+                        <p className="text-sm text-muted">
+                            {season.episodes.length} episodes
+                        </p>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}

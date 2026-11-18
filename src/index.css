@@ -1,51 +1,23 @@
+@import "tailwindcss";
 @import "./styles/tokens.css";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+    --color-surface-base: var(--surface-base);
+    --color-surface-raised: var(--surface-raised);
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-secondary);
+    --color-accent: var(--accent);
+
+    --color-surface: var(--surface-base);
+    --color-raised: var(--surface-raised);
+    --color-muted: var(--text-secondary);
+}
 
 body {
     margin: 0;
     font-family: var(--font-stack);
     color: var(--text-primary);
     background: var(--surface-base);
-}
-
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-6);
-}
-.show-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: var(--space-6);
-    padding: var(--space-6);
-}
-.show-card {
-    background: var(--surface-raised);
-    border-radius: var(--radius-md);
-    padding: var(--space-5);
-}
-.show-card img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: var(--radius-sm);
-}
-.show-card__meta {
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    margin: var(--space-4) 0;
-}
-.show-card__genres {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.show-card__genres li {
-    background: var(--surface-base);
-    border-radius: var(--radius-lg);
-    padding: var(--space-2) var(--space-5);
-    font-size: 0.75rem;
 }
