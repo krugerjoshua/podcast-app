@@ -6,6 +6,7 @@ import {
     useRef,
     useState,
 } from "react";
+import { useListeningHistory } from "./HistoryContext";
 
 const PlayerContext = createContext(null);
 
@@ -15,6 +16,7 @@ export function PlayerProvider({ children }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
+    const { markListened } = useListeningHistory();
 
     // load and start a new episode whenever the selection changes
     useEffect(() => {
@@ -78,7 +80,10 @@ export function PlayerProvider({ children }) {
                     setCurrentTime(e.currentTarget.currentTime)
                 }
                 onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-                onEnded={() => setIsPlaying(false)}
+                onEnded={() => {
+                    setIsPlaying(false);
+                    if (current) markListened(current);
+                }}
             />
         </PlayerContext.Provider>
     );

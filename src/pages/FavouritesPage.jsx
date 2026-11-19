@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useFavourites } from "../context/FavouritesContext";
 import { usePlayer } from "../context/PlayerContext";
 import { formatDateTime } from "../utils/formatDate";
+import { useListeningHistory } from "../context/HistoryContext";
 
 const SORTS = {
     "title-asc": {
@@ -37,6 +38,7 @@ export default function FavouritesPage() {
     const { favourites, toggle } = useFavourites();
     const { play, current, isPlaying } = usePlayer();
     const [sort, setSort] = useState("title-asc");
+    const { hasListened } = useListeningHistory();
 
     const groups = useMemo(
         () => groupBySeason([...favourites].sort(SORTS[sort].fn)),
@@ -106,8 +108,14 @@ export default function FavouritesPage() {
                                             </button>
                                             <div className="min-w-0 flex-1">
                                                 <p className="font-semibold">
-                                                    {ep.episodeNumber}.{" "}
-                                                    {ep.title}
+                                                    {ep.episode}. {ep.title}
+                                                    {hasListened(
+                                                        episode.id,
+                                                    ) && (
+                                                        <span className="ml-2 rounded-full bg-surface px-2 py-0.5 text-xs font-normal text-muted">
+                                                            Listened
+                                                        </span>
+                                                    )}
                                                 </p>
                                                 <p className="text-sm text-muted">
                                                     Added{" "}

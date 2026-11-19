@@ -7,6 +7,7 @@ import SeasonPage from "./pages/SeasonPage";
 import Player from "./components/Player";
 import FavouritesPage from "./pages/FavouritesPage";
 import { useFavourites } from "./context/FavouritesContext";
+import HistoryPage from "./pages/HistoryPage";
 
 function App() {
     const { theme, toggle } = useTheme();
@@ -30,6 +31,9 @@ function App() {
                 <Link to="/favourites" className="underline">
                     Favourites ({favourites.length})
                 </Link>
+                <Link to="/history" className="underline">
+                    History
+                </Link>
             </header>
 
             <main className="pb-28 min-h-screen bg-surface-base">
@@ -40,6 +44,7 @@ function App() {
                         <Route path="season/:season" element={<SeasonPage />} />
                     </Route>
                     <Route path="/favourites" element={<FavouritesPage />} />
+                    <Route path="/history" element={<HistoryPage />} />
                 </Routes>
             </main>
             <Player />
