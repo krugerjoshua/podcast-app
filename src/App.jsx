@@ -2,6 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import { useTheme } from "./hooks/useTheme";
 import HomePage from "./pages/HomePage";
 import ShowPage from "./pages/ShowPage";
+import ShowLayout from "./pages/ShowLayout";
+import SeasonPage from "./pages/SeasonPage";
 
 function App() {
   const { theme, toggle } = useTheme();
@@ -22,7 +24,10 @@ function App() {
       <main className="min-h-screen bg-surface-base">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/show/:id" element={<ShowPage />} />
+          <Route path="/show/:id" element={<ShowLayout />}>
+            <Route index element={<ShowPage />} />
+            <Route path="season/:season" element={<SeasonPage />} />
+          </Route>
         </Routes>
       </main>
     </>

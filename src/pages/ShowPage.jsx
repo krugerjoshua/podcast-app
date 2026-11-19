@@ -1,18 +1,8 @@
-import { Link, useParams } from "react-router-dom";
-import { useShow } from "../hooks/useShow";
-import Loading from "../components/Loading";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 
 export default function ShowPage() {
+    const { show } = useOutletContext();
     const { id } = useParams();
-    const { show, status, error } = useShow(id);
-
-    if (status === "loading") return <Loading label="Loading show..." />;
-    if (status === "error")
-        return (
-            <p role="alert" className="p-6">
-                {error}
-            </p>
-        );
 
     return (
         <div className="p-4">
@@ -27,14 +17,21 @@ export default function ShowPage() {
                 {show.seasons.map((season) => (
                     <li
                         key={season.season}
-                        className="rounded-2xl bg-raised p-3"
+                        className="relative rounded-2xl bg-raised p-3 focus-within:ring-2 focus-within:ring-accent"
                     >
                         <img
                             src={season.image}
                             alt=""
                             className="aspect-square w-full rounded-lg object-cover"
                         />
-                        <p className="mt-2 font-semibold">{season.title}</p>
+                        <p className="mt-2 font-semibold">
+                            <Link
+                                to={`/show/${id}/season/${season.season}`}
+                                className="after:absolute after:inset-0 focus:outline-none"
+                            >
+                                {season.title}
+                            </Link>
+                        </p>
                         <p className="text-sm text-muted">
                             {season.episodes.length} episodes
                         </p>
