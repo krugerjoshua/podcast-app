@@ -1,5 +1,5 @@
 import { Outlet, useParams } from "react-router-dom";
-import { useShow } from "../hooks/useShow";
+import { useShow } from "../hooks/useShows";
 import Loading from "../components/Loading";
 
 export default function ShowLayout() {
