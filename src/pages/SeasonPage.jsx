@@ -1,5 +1,6 @@
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import { usePlayer } from "../context/PlayerContext";
+import FavouriteButton from "../components/FavouriteButton";
 
 export default function SeasonPage() {
     const { show } = useOutletContext();
@@ -30,29 +31,32 @@ export default function SeasonPage() {
             <nav aria-label="Seasons" className="mt-3">
                 <ul className="flex flex-wrap gap-2">
                     {season.episodes.map((ep) => {
-                        const episodeId = `${show.id}-${season.season}-${ep.episode}`;
-                        const isCurrent = current?.id === episodeId;
+                        const episode = {
+                            id: `${show.id}-${season.season}-${ep.episode}`,
+                            title: ep.title,
+                            file: ep.file,
+                            image: season.image,
+                            showId: show.id,
+                            showTitle: show.title,
+                            seasonNumber: season.season,
+                            seasonTitle: season.title,
+                            episodeNumber: ep.episode,
+                            showUpdated: show.updated,
+                        };
+                        const isCurrent = current?.id === episode.id;
                         return (
                             <li
                                 key={ep.episode}
                                 className="flex items-start gap-3 rounded-2xl bg-raised p-3"
                             >
                                 <button
-                                    onClick={() =>
-                                        play({
-                                            id: episodeId,
-                                            title: ep.title,
-                                            file: ep.file,
-                                            image: season.image,
-                                            showTitle: show.title,
-                                            seasonTitle: season.title,
-                                        })
-                                    }
+                                    onClick={() => play(episode)}
                                     aria-label={`${isCurrent && isPlaying ? "Pause" : "Play"} ${ep.title}`}
                                     className="shrink-0 rounded-full bg-fg px-3 py-1 text-sm font-semibold text-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                                 >
                                     {isCurrent && isPlaying ? "Pause" : "Play"}
                                 </button>
+                                <FavouriteButton episode={episode} />
                                 <div className="min-w-0">
                                     <p className="font-semibold">
                                         {ep.episode}. {ep.title}

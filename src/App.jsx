@@ -1,13 +1,16 @@
-import { Routes, Route } from "react-router-dom";
+import { Link, Routes, Route } from "react-router-dom";
 import { useTheme } from "./hooks/useTheme";
 import HomePage from "./pages/HomePage";
 import ShowPage from "./pages/ShowPage";
 import ShowLayout from "./pages/ShowLayout";
 import SeasonPage from "./pages/SeasonPage";
 import Player from "./components/Player";
+import FavouritesPage from "./pages/FavouritesPage";
+import { useFavourites } from "./context/FavouritesContext";
 
 function App() {
     const { theme, toggle } = useTheme();
+    const { favourites } = useFavourites();
 
     return (
         <>
@@ -24,6 +27,9 @@ function App() {
                         ? "Switch to light mode"
                         : "Switch to dark mode"}
                 </button>
+                <Link to="/favourites" className="underline">
+                    Favourites ({favourites.length})
+                </Link>
             </header>
 
             <main className="pb-28 min-h-screen bg-surface-base">
@@ -33,6 +39,7 @@ function App() {
                         <Route index element={<ShowPage />} />
                         <Route path="season/:season" element={<SeasonPage />} />
                     </Route>
+                    <Route path="/favourites" element={<FavouritesPage />} />
                 </Routes>
             </main>
             <Player />
