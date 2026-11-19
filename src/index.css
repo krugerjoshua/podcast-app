@@ -13,6 +13,9 @@
     --color-surface: var(--surface-base);
     --color-raised: var(--surface-raised);
     --color-muted: var(--text-secondary);
+    --color-fg: var(--text-primary);
+    --color-player: var(--player-bg);
+    --color-player-fg: var(--player-text);
 }
 
 body {

@@ -1,8 +1,10 @@
-import { Link, NavLink, useOutletContext, useParams } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
+import { usePlayer } from "../context/PlayerContext";
 
 export default function SeasonPage() {
     const { show } = useOutletContext();
     const { id, season: seasonParam } = useParams();
+    const { play, current, isPlaying } = usePlayer();
 
     const season = show.seasons.find((s) => String(s.season) === seasonParam);
 
@@ -27,22 +29,41 @@ export default function SeasonPage() {
 
             <nav aria-label="Seasons" className="mt-3">
                 <ul className="flex flex-wrap gap-2">
-                    {show.seasons.map((s) => (
-                        <li key={s.season}>
-                            <NavLink
-                                to={`/show/${id}/season/${s.season}`}
-                                className={({ isActive }) =>
-                                    `block rounded-full px-3 py-1 text-sm ${
-                                        isActive
-                                            ? "bg-fg text-surface"
-                                            : "bg-raised text-fg"
-                                    }`
-                                }
+                    {season.episodes.map((ep) => {
+                        const episodeId = `${show.id}-${season.season}-${ep.episode}`;
+                        const isCurrent = current?.id === episodeId;
+                        return (
+                            <li
+                                key={ep.episode}
+                                className="flex items-start gap-3 rounded-2xl bg-raised p-3"
                             >
-                                Season {s.season}
-                            </NavLink>
-                        </li>
-                    ))}
+                                <button
+                                    onClick={() =>
+                                        play({
+                                            id: episodeId,
+                                            title: ep.title,
+                                            file: ep.file,
+                                            image: season.image,
+                                            showTitle: show.title,
+                                            seasonTitle: season.title,
+                                        })
+                                    }
+                                    aria-label={`${isCurrent && isPlaying ? "Pause" : "Play"} ${ep.title}`}
+                                    className="shrink-0 rounded-full bg-fg px-3 py-1 text-sm font-semibold text-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                                >
+                                    {isCurrent && isPlaying ? "Pause" : "Play"}
+                                </button>
+                                <div className="min-w-0">
+                                    <p className="font-semibold">
+                                        {ep.episode}. {ep.title}
+                                    </p>
+                                    <p className="mt-1 line-clamp-2 text-sm text-muted">
+                                        {ep.description}
+                                    </p>
+                                </div>
+                            </li>
+                        );
+                    })}
                 </ul>
             </nav>
 
