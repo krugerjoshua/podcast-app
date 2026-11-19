@@ -49,6 +49,7 @@ export function FavouritesProvider({ children }) {
     );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useFavourites() {
     return useContext(FavouritesContext);
 }

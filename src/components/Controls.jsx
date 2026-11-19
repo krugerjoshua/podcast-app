@@ -14,7 +14,7 @@ export default function Controls({
 }) {
     return (
         <div className="flex flex-wrap gap-4 p-4">
-            <label className="flex flex-col gap-1 text-sm">
+            <label className="flex w-full flex-col gap-1 text-sm sm:w-auto">
                 Search shows
                 <input
                     type="search"
@@ -25,7 +25,7 @@ export default function Controls({
                 />
             </label>
 
-            <label className="flex flex-col gap-1 text-sm">
+            <label className="flex w-full flex-col gap-1 text-sm sm:w-auto">
                 Genre
                 <select
                     value={genreId}
@@ -41,7 +41,7 @@ export default function Controls({
                 </select>
             </label>
 
-            <label className="flex flex-col gap-1 text-sm">
+            <label className="flex w-full flex-col gap-1 text-sm sm:w-auto">
                 Sort by
                 <select
                     value={sort}

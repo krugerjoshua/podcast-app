@@ -84,6 +84,7 @@ export function PlayerProvider({ children }) {
                     setIsPlaying(false);
                     if (current) markListened(current);
                 }}
+                onError={() => setIsPlaying(false)}
             />
         </PlayerContext.Provider>
     );

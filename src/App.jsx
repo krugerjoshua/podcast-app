@@ -15,28 +15,39 @@ function App() {
 
     return (
         <>
-            <header className="flex items-center justify-between bg-surface-base p-4">
-                <h1 className="text-2xl font-semibold text-text-primary">
+            <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 p-4">
+                <Link to="/" className="text-xl font-bold">
                     CueThePod
-                </h1>
-                <button
-                    onClick={toggle}
-                    aria-pressed={theme === "dark"}
-                    className="rounded-md bg-accent px-3 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                </Link>
+                <nav
+                    aria-label="Main"
+                    className="flex flex-wrap items-center gap-x-4 gap-y-2"
                 >
-                    {theme === "dark"
-                        ? "Switch to light mode"
-                        : "Switch to dark mode"}
-                </button>
-                <Link to="/favourites" className="underline">
-                    Favourites ({favourites.length})
-                </Link>
-                <Link to="/history" className="underline">
-                    History
-                </Link>
+                    <Link to="/favourites" className="underline">
+                        Favourites ({favourites.length})
+                    </Link>
+                    <Link to="/history" className="underline">
+                        History
+                    </Link>
+                    <button
+                        onClick={toggle}
+                        aria-pressed={theme === "dark"}
+                        className="rounded-full border border-fg px-3 py-1 text-sm"
+                    >
+                        {theme === "dark"
+                            ? "Switch to light mode"
+                            : "Switch to dark mode"}
+                    </button>
+                    <a
+                        href="#main"
+                        className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-20 focus:rounded focus:bg-fg focus:px-3 focus:py-2 focus:text-surface"
+                    >
+                        Skip to content
+                    </a>
+                </nav>
             </header>
 
-            <main className="pb-28 min-h-screen bg-surface-base">
+            <main id="main" className="pb-36 sm:pb-28">
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/show/:id" element={<ShowLayout />}>
@@ -45,6 +56,17 @@ function App() {
                     </Route>
                     <Route path="/favourites" element={<FavouritesPage />} />
                     <Route path="/history" element={<HistoryPage />} />
+                    <Route
+                        path="*"
+                        element={
+                            <p className="p-6">
+                                Page not found.{" "}
+                                <Link to="/" className="text-accent underline">
+                                    Back to all shows
+                                </Link>
+                            </p>
+                        }
+                    />
                 </Routes>
             </main>
             <Player />

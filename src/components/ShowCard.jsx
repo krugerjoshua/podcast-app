@@ -11,7 +11,7 @@ export default function ShowCard({ show }) {
                 loading="lazy"
                 className="aspect-square w-full rounded-lg object-cover"
             />
-            <h2 className="mt-2 font-semibold">
+            <h2 className="mt-2 font-semibold break-words">
                 <Link
                     to={`/show/${show.id}`}
                     className="after:absolute after:inset-0 focus:outline-none"

@@ -9,7 +9,7 @@ export default function ShowPage() {
             <Link to="/" className="text-accent underline">
                 Back to all shows
             </Link>
-            <h1 className="mt-4 text-2xl font-bold">{show.title}</h1>
+            <h1 className="mt-4 text-2xl font-bold break-words">{show.title}</h1>
             <p className="mt-2 max-w-prose text-muted">{show.description}</p>
 
             <h2 className="mt-6 text-lg font-semibold">Seasons</h2>

@@ -100,7 +100,7 @@ export default function FavouritesPage() {
                                             <button
                                                 onClick={() => play(ep)}
                                                 aria-label={`${isCurrent && isPlaying ? "Pause" : "Play"} ${ep.title}`}
-                                                className="rounded-full bg-fg px-3 py-1 text-sm font-semibold text-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                                                className="rounded-full bg-fg px-3 py-2 text-sm font-semibold text-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                                             >
                                                 {isCurrent && isPlaying
                                                     ? "Pause"
@@ -110,7 +110,7 @@ export default function FavouritesPage() {
                                                 <p className="font-semibold">
                                                     {ep.episode}. {ep.title}
                                                     {hasListened(
-                                                        episode.id,
+                                                        ep.id,
                                                     ) && (
                                                         <span className="ml-2 rounded-full bg-surface px-2 py-0.5 text-xs font-normal text-muted">
                                                             Listened
@@ -125,7 +125,7 @@ export default function FavouritesPage() {
                                             <button
                                                 onClick={() => toggle(ep)}
                                                 aria-label={`Remove from favourites: ${ep.title}`}
-                                                className="rounded-full border border-fg px-3 py-1 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                                                className="rounded-full border border-fg px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                                             >
                                                 Remove
                                             </button>

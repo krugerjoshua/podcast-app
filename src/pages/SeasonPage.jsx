@@ -23,12 +23,12 @@ export default function SeasonPage() {
     }
 
     return (
-        <div className="p-4">
+        <div className="min-w-0 basis-full sm:basis-0 sm:flex-1">
             <Link to={`/show/${id}`} className="text-accent underline">
                 Back to {show.title}
             </Link>
 
-            <h1 className="mt-4 text-2xl font-bold">{show.title}</h1>
+            <h1 className="mt-4 text-2xl font-bold break-words">{show.title}</h1>
 
             <nav aria-label="Seasons" className="mt-3">
                 <ul className="flex flex-wrap gap-2">
@@ -49,17 +49,17 @@ export default function SeasonPage() {
                         return (
                             <li
                                 key={ep.episode}
-                                className="flex items-start gap-3 rounded-2xl bg-raised p-3"
+                                className="flex flex-wrap items-start gap-3 rounded-2xl bg-raised p-3"
                             >
                                 <button
                                     onClick={() => play(episode)}
                                     aria-label={`${isCurrent && isPlaying ? "Pause" : "Play"} ${ep.title}`}
-                                    className="shrink-0 rounded-full bg-fg px-3 py-1 text-sm font-semibold text-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                                    className="shrink-0 rounded-full bg-fg px-3 py-2 text-sm font-semibold text-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                                 >
                                     {isCurrent && isPlaying ? "Pause" : "Play"}
                                 </button>
                                 <FavouriteButton episode={episode} />
-                                <div className="min-w-0">
+                                <div className="min-w-0 basis-full sm:basis-0 sm:flex-1">
                                     <p className="font-semibold">
                                         {ep.episode}. {ep.title}
                                         {hasListened(episode.id) && (
@@ -83,7 +83,10 @@ export default function SeasonPage() {
             </h2>
             <ol className="mt-3 flex flex-col gap-3">
                 {season.episodes.map((ep) => (
-                    <li key={ep.episode} className="rounded-2xl bg-raised p-3">
+                    <li
+                        key={ep.episode}
+                        className="flex flex-wrap items-start gap-3 rounded-2xl bg-raised p-3"
+                    >
                         <p className="font-semibold">
                             {ep.episode}. {ep.title}
                         </p>
