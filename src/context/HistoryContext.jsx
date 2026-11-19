@@ -8,6 +8,7 @@ import {
 
 const HistoryContext = createContext(null);
 const KEY = "listening-history";
+const POS_KEY = "episode-positions";
 
 function load() {
     try {
@@ -18,8 +19,18 @@ function load() {
     }
 }
 
+function loadPositions() {
+    try {
+        const raw = localStorage.getItem(POS_KEY);
+        return raw ? JSON.parse(raw) : {};
+    } catch {
+        return {};
+    }
+}
+
 export function HistoryProvider({ children }) {
     const [history, setHistory] = useState(load);
+    const [positions, setPositions] = useState(loadPositions);
 
     useEffect(() => {
         try {
@@ -28,6 +39,14 @@ export function HistoryProvider({ children }) {
             // storage unavailable; keep working in memory
         }
     }, [history]);
+
+    useEffect(() => {
+        try {
+            localStorage.setItem(POS_KEY, JSON.stringify(positions));
+        } catch {
+            // storage unavailable; keep working in memory
+        }
+    }, [positions]);
 
     const markListened = useCallback((episode) => {
         setHistory((prev) => [
@@ -41,11 +60,40 @@ export function HistoryProvider({ children }) {
         [history],
     );
 
-    const reset = useCallback(() => setHistory([]), []);
+    const savePosition = useCallback((id, seconds) => {
+        setPositions((prev) =>
+            prev[id] === seconds ? prev : { ...prev, [id]: seconds },
+        );
+    }, []);
+
+    const clearPosition = useCallback((id) => {
+        setPositions((prev) => {
+            if (!(id in prev)) return prev;
+            const next = { ...prev };
+            delete next[id];
+            return next;
+        });
+    }, []);
+
+    const getPosition = useCallback((id) => positions[id] ?? 0, [positions]);
+
+    const reset = useCallback(() => {
+        setHistory([]);
+        setPositions({});
+    }, []);
 
     return (
         <HistoryContext.Provider
-            value={{ history, markListened, hasListened, reset }}
+            value={{
+                history,
+                positions,
+                markListened,
+                hasListened,
+                reset,
+                savePosition,
+                clearPosition,
+                getPosition,
+            }}
         >
             {children}
         </HistoryContext.Provider>

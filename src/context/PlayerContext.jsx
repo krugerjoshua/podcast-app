@@ -16,7 +16,10 @@ export function PlayerProvider({ children }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const { markListened } = useListeningHistory();
+    const { markListened, savePosition, clearPosition, getPosition } =
+        useListeningHistory();
+    const resumeAtRef = useRef(0);
+    const lastSavedRef = useRef(0);
 
     // load and start a new episode whenever the selection changes
     useEffect(() => {
@@ -43,10 +46,18 @@ export function PlayerProvider({ children }) {
             if (current?.id === episode.id) {
                 audio.paused ? audio.play() : audio.pause();
             } else {
+                if (current && audio.currentTime >= 1) {
+                    savePosition(
+                        current.id,
+                        Math.floor(audio.currentTime),
+                    ); // keep the episode we are leaving
+                }
+                resumeAtRef.current = getPosition(episode.id);
+                lastSavedRef.current = resumeAtRef.current;
                 setCurrent(episode);
             }
         },
-        [current],
+        [current, savePosition, getPosition],
     );
 
     const toggle = useCallback(() => {
@@ -75,14 +86,38 @@ export function PlayerProvider({ children }) {
             <audio
                 ref={audioRef}
                 onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                onTimeUpdate={(e) =>
-                    setCurrentTime(e.currentTarget.currentTime)
-                }
-                onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+                onPause={(e) => {
+                    setIsPlaying(false);
+                    const t = e.currentTarget.currentTime;
+                    if (current && t >= 1 && !e.currentTarget.ended)
+                        savePosition(current.id, Math.floor(t));
+                }}
+                onTimeUpdate={(e) => {
+                    const t = e.currentTarget.currentTime;
+                    setCurrentTime(t);
+                    if (
+                        current &&
+                        t >= 1 &&
+                        Math.abs(t - lastSavedRef.current) >= 5
+                    ) {
+                        lastSavedRef.current = t;
+                        savePosition(current.id, Math.floor(t));
+                    }
+                }}
+                onLoadedMetadata={(e) => {
+                    const audio = e.currentTarget;
+                    setDuration(audio.duration);
+                    const resumeAt = resumeAtRef.current;
+                    if (resumeAt > 0 && resumeAt < audio.duration - 2)
+                        audio.currentTime = resumeAt;
+                    resumeAtRef.current = 0;
+                }}
                 onEnded={() => {
                     setIsPlaying(false);
-                    if (current) markListened(current);
+                    if (current) {
+                        markListened(current);
+                        clearPosition(current.id);
+                    }
                 }}
                 onError={() => setIsPlaying(false)}
             />

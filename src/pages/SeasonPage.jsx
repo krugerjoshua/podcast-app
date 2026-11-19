@@ -2,12 +2,13 @@ import { Link, useOutletContext, useParams } from "react-router-dom";
 import { usePlayer } from "../context/PlayerContext";
 import FavouriteButton from "../components/FavouriteButton";
 import { useListeningHistory } from "../context/HistoryContext";
+import { formatTime } from "../utils/formatTime";
 
 export default function SeasonPage() {
     const { show } = useOutletContext();
     const { id, season: seasonParam } = useParams();
     const { play, current, isPlaying } = usePlayer();
-    const { hasListened } = useListeningHistory();
+    const { hasListened, getPosition } = useListeningHistory();
 
     const season = show.seasons.find((s) => String(s.season) === seasonParam);
 
@@ -68,6 +69,14 @@ export default function SeasonPage() {
                                             </span>
                                         )}
                                     </p>
+                                    {getPosition(episode.id) > 0 && (
+                                        <p className="text-sm text-muted">
+                                            Left off at{" "}
+                                            {formatTime(
+                                                getPosition(episode.id),
+                                            )}
+                                        </p>
+                                    )}
                                     <p className="mt-1 line-clamp-2 text-sm text-muted">
                                         {ep.description}
                                     </p>

@@ -4,6 +4,7 @@ import { useFavourites } from "../context/FavouritesContext";
 import { usePlayer } from "../context/PlayerContext";
 import { formatDateTime } from "../utils/formatDate";
 import { useListeningHistory } from "../context/HistoryContext";
+import { formatTime } from "../utils/formatTime";
 
 const SORTS = {
     "title-asc": {
@@ -38,7 +39,7 @@ export default function FavouritesPage() {
     const { favourites, toggle } = useFavourites();
     const { play, current, isPlaying } = usePlayer();
     const [sort, setSort] = useState("title-asc");
-    const { hasListened } = useListeningHistory();
+    const { hasListened, getPosition } = useListeningHistory();
 
     const groups = useMemo(
         () => groupBySeason([...favourites].sort(SORTS[sort].fn)),
@@ -117,6 +118,14 @@ export default function FavouritesPage() {
                                                         </span>
                                                     )}
                                                 </p>
+                                                {getPosition(ep.id) > 0 && (
+                                                    <p className="text-sm text-muted">
+                                                        Left off at{" "}
+                                                        {formatTime(
+                                                            getPosition(ep.id),
+                                                        )}
+                                                    </p>
+                                                )}
                                                 <p className="text-sm text-muted">
                                                     Added{" "}
                                                     {formatDateTime(ep.addedAt)}
