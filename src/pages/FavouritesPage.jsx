@@ -47,25 +47,25 @@ export default function FavouritesPage() {
     );
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold">Favourites</h1>
+        <div className="px-4 pt-2">
+            <h1 className="text-xl font-bold tracking-tight">Favourites</h1>
 
             {favourites.length === 0 ? (
-                <p className="mt-4 text-muted">
-                    You have no favourites yet. Open a season and choose
-                    Favourite on an episode.{" "}
+                <p className="mt-4 rounded-3xl bg-raised p-4 text-sm text-muted">
+                    You have no favourites yet. Open a season and tap the heart
+                    on an episode.{" "}
                     <Link to="/" className="text-accent underline">
                         Browse shows
                     </Link>
                 </p>
             ) : (
                 <>
-                    <label className="mt-4 flex w-fit flex-col gap-1 text-sm">
+                    <label className="mt-4 flex w-fit flex-col gap-1 text-xs text-muted">
                         Sort by
                         <select
                             value={sort}
                             onChange={(e) => setSort(e.target.value)}
-                            className="rounded-lg border border-muted/40 bg-raised px-3 py-2 text-fg focus-visible:outline-2 focus-visible:outline-accent"
+                            className="rounded-full border border-black/5 bg-raised px-3 py-2 text-xs font-medium text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent dark:border-white/10"
                         >
                             {Object.entries(SORTS).map(([value, { label }]) => (
                                 <option key={value} value={value}>
@@ -96,7 +96,7 @@ export default function FavouritesPage() {
                                     return (
                                         <li
                                             key={ep.id}
-                                            className="flex flex-wrap items-center gap-3 rounded-2xl bg-raised p-3"
+                                            className="flex flex-wrap items-center gap-3 rounded-3xl bg-raised p-3"
                                         >
                                             <button
                                                 onClick={() => play(ep)}

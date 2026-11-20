@@ -8,6 +8,9 @@ import Player from "./components/Player";
 import FavouritesPage from "./pages/FavouritesPage";
 import { useFavourites } from "./context/FavouritesContext";
 import HistoryPage from "./pages/HistoryPage";
+import CollectionsPage from "./pages/CollectionsPage";
+import BottomNav from "./components/BottomNav";
+import { BellIcon, MoonIcon, SunIcon } from "./components/Icons";
 
 function App() {
     const { theme, toggle } = useTheme();
@@ -15,41 +18,63 @@ function App() {
 
     return (
         <>
-            <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 p-4">
-                <Link to="/" className="text-xl font-bold">
-                    CueThePod
-                </Link>
-                <nav
-                    aria-label="Main"
-                    className="flex flex-wrap items-center gap-x-4 gap-y-2"
-                >
-                    <Link to="/favourites" className="underline">
-                        Favourites ({favourites.length})
-                    </Link>
-                    <Link to="/history" className="underline">
-                        History
-                    </Link>
+            <a
+                href="#main"
+                className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-40 focus:rounded focus:bg-fg focus:px-3 focus:py-2 focus:text-surface"
+            >
+                Skip to content
+            </a>
+
+            <header className="mx-auto flex w-full max-w-3xl items-center justify-between gap-3 px-5 pb-2 pt-6">
+                <div className="min-w-0">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                        CueThePod
+                    </p>
+                    <h1 className="truncate text-2xl font-bold tracking-tight">
+                        My Soundwaves
+                    </h1>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
                     <button
                         onClick={toggle}
                         aria-pressed={theme === "dark"}
-                        className="rounded-full border border-fg px-3 py-1 text-sm"
+                        aria-label={
+                            theme === "dark"
+                                ? "Switch to light mode"
+                                : "Switch to dark mode"
+                        }
+                        className="grid size-10 place-items-center rounded-full bg-raised text-fg transition active:scale-95"
                     >
-                        {theme === "dark"
-                            ? "Switch to light mode"
-                            : "Switch to dark mode"}
+                        {theme === "dark" ? (
+                            <SunIcon className="size-4" />
+                        ) : (
+                            <MoonIcon className="size-4" />
+                        )}
                     </button>
-                    <a
-                        href="#main"
-                        className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-20 focus:rounded focus:bg-fg focus:px-3 focus:py-2 focus:text-surface"
+                    <Link
+                        to="/history"
+                        aria-label="Listening history"
+                        className="grid size-10 place-items-center rounded-full bg-raised text-fg transition active:scale-95"
                     >
-                        Skip to content
-                    </a>
-                </nav>
+                        <BellIcon className="size-4" />
+                    </Link>
+                    <Link
+                        to="/favourites"
+                        aria-label={`Favourites (${favourites.length})`}
+                        className="grid size-10 place-items-center rounded-full bg-accent text-sm font-semibold text-white transition active:scale-95"
+                    >
+                        CT
+                    </Link>
+                </div>
             </header>
 
-            <main id="main" className="pb-36 sm:pb-28">
+            <main
+                id="main"
+                className="mx-auto w-full max-w-3xl pb-[calc(10rem+env(safe-area-inset-bottom))]"
+            >
                 <Routes>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/collections" element={<CollectionsPage />} />
                     <Route path="/show/:id" element={<ShowLayout />}>
                         <Route index element={<ShowPage />} />
                         <Route path="season/:season" element={<SeasonPage />} />
@@ -70,6 +95,7 @@ function App() {
                 </Routes>
             </main>
             <Player />
+            <BottomNav />
         </>
     );
 }

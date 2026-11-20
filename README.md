@@ -16,6 +16,8 @@ CueThePod is a podcast browser. Find shows by title or genre, play episodes, sav
 - Listening history that marks finished episodes, with a full reset
 - Light and dark themes, remembered between visits
 - Responsive layout for phones, tablets and desktops
+- Landing-page carousel of randomly picked shows
+- Resume playback from where you left off, with the saved position shown on each episode
 
 ## Tech stack
 

@@ -18,9 +18,28 @@
     --color-player-fg: var(--player-text);
 }
 
+html {
+    background: var(--surface-base);
+    -webkit-tap-highlight-color: transparent;
+}
+
 body {
     margin: 0;
+    min-height: 100dvh;
     font-family: var(--font-stack);
     color: var(--text-primary);
     background: var(--surface-base);
+}
+
+.no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+input[type="range"] {
+    accent-color: var(--player-text);
 }

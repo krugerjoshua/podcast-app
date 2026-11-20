@@ -1,8 +1,23 @@
-import { GENRES } from "../constants/genres";
+import { GENRES, GENRE_SHORT } from "../constants/genres";
 import { SORT_OPTIONS } from "../utils/filterAndSort";
+import { SearchIcon } from "./Icons";
 
-const field =
-    "rounded-lg border border-muted/40 bg-raised px-3 py-2 text-fg focus-visible:outline-2 focus-visible:outline-accent";
+function Chip({ active, children, ...props }) {
+    return (
+        <button
+            type="button"
+            aria-pressed={active}
+            className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition active:scale-95 ${
+                active
+                    ? "bg-fg text-surface"
+                    : "bg-raised text-muted hover:text-fg"
+            }`}
+            {...props}
+        >
+            {children}
+        </button>
+    );
+}
 
 export default function Controls({
     query,
@@ -13,48 +28,58 @@ export default function Controls({
     setSort,
 }) {
     return (
-        <div className="flex flex-wrap gap-4 p-4">
-            <label className="flex w-full flex-col gap-1 text-sm sm:w-auto">
-                Search shows
+        <div className="mt-3 space-y-3">
+            <label className="relative block">
+                <span className="sr-only">Search shows</span>
+                <SearchIcon className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
                 <input
                     type="search"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search by title"
-                    className={field}
+                    placeholder="Search podcasts"
+                    className="w-full rounded-full border border-black/5 bg-raised py-3 pl-11 pr-4 text-sm text-fg placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent dark:border-white/10"
                 />
             </label>
 
-            <label className="flex w-full flex-col gap-1 text-sm sm:w-auto">
-                Genre
-                <select
-                    value={genreId}
-                    onChange={(e) => setGenreId(e.target.value)}
-                    className={field}
+            <div
+                role="group"
+                aria-label="Filter by collection"
+                className="no-scrollbar flex gap-2 overflow-x-auto pb-1"
+            >
+                <Chip
+                    active={genreId === "all"}
+                    onClick={() => setGenreId("all")}
                 >
-                    <option value="all">All genres</option>
-                    {Object.entries(GENRES).map(([id, title]) => (
-                        <option key={id} value={id}>
-                            {title}
-                        </option>
-                    ))}
-                </select>
-            </label>
+                    All
+                </Chip>
+                {Object.entries(GENRES).map(([id, title]) => (
+                    <Chip
+                        key={id}
+                        active={genreId === id}
+                        onClick={() => setGenreId(id)}
+                    >
+                        {GENRE_SHORT[id] ?? title}
+                    </Chip>
+                ))}
+            </div>
 
-            <label className="flex w-full flex-col gap-1 text-sm sm:w-auto">
-                Sort by
-                <select
-                    value={sort}
-                    onChange={(e) => setSort(e.target.value)}
-                    className={field}
-                >
-                    {SORT_OPTIONS.map((o) => (
-                        <option key={o.value} value={o.value}>
-                            {o.label}
-                        </option>
-                    ))}
-                </select>
-            </label>
+            <div className="flex items-center justify-between gap-3">
+                <p className="text-xs text-muted">Browse by collection</p>
+                <label>
+                    <span className="sr-only">Sort by</span>
+                    <select
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value)}
+                        className="rounded-full border border-black/5 bg-raised px-3 py-2 text-xs font-medium text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent dark:border-white/10"
+                    >
+                        {SORT_OPTIONS.map((o) => (
+                            <option key={o.value} value={o.value}>
+                                {o.label}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+            </div>
         </div>
     );
 }

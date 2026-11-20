@@ -14,9 +14,12 @@ export default function SeasonPage() {
 
     if (!season) {
         return (
-            <div className="p-4">
+            <div className="px-4 pt-2">
                 <p role="alert">That season doesn't exist.</p>
-                <Link to={`/show/${id}`} className="text-accent underline">
+                <Link
+                    to={`/show/${id}`}
+                    className="mt-3 inline-flex rounded-full bg-raised px-3 py-1.5 text-xs font-medium text-muted hover:text-fg"
+                >
                     Back to {show.title}
                 </Link>
             </div>
@@ -24,12 +27,17 @@ export default function SeasonPage() {
     }
 
     return (
-        <div className="min-w-0 basis-full sm:basis-0 sm:flex-1">
-            <Link to={`/show/${id}`} className="text-accent underline">
+        <div className="min-w-0 basis-full px-4 pt-2 sm:basis-0 sm:flex-1">
+            <Link
+                to={`/show/${id}`}
+                className="inline-flex items-center rounded-full bg-raised px-3 py-1.5 text-xs font-medium text-muted transition hover:text-fg"
+            >
                 Back to {show.title}
             </Link>
 
-            <h1 className="mt-4 text-2xl font-bold break-words">{show.title}</h1>
+            <h1 className="mt-4 text-2xl font-bold tracking-tight break-words">
+                {show.title}
+            </h1>
 
             <nav aria-label="Seasons" className="mt-3">
                 <ul className="flex flex-wrap gap-2">
@@ -50,7 +58,7 @@ export default function SeasonPage() {
                         return (
                             <li
                                 key={ep.episode}
-                                className="flex flex-wrap items-start gap-3 rounded-2xl bg-raised p-3"
+                                className="flex flex-wrap items-start gap-3 rounded-3xl bg-raised p-3"
                             >
                                 <button
                                     onClick={() => play(episode)}
@@ -94,7 +102,7 @@ export default function SeasonPage() {
                 {season.episodes.map((ep) => (
                     <li
                         key={ep.episode}
-                        className="flex flex-wrap items-start gap-3 rounded-2xl bg-raised p-3"
+                        className="flex flex-wrap items-start gap-3 rounded-3xl bg-raised p-3"
                     >
                         <p className="font-semibold">
                             {ep.episode}. {ep.title}
