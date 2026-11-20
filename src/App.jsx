@@ -31,7 +31,7 @@ function App() {
                         CueThePod
                     </p>
                     <h1 className="truncate text-2xl font-bold tracking-tight">
-                        My Soundwaves
+                        My Sounds Cued...
                     </h1>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
